@@ -6,7 +6,7 @@ from ckeditor_uploader.fields import RichTextUploadingField
 
 class TitleInfo(models.Model):
     title = models.CharField(max_length=10, verbose_name='分类')
-    image = models.ImageField(upload_to='image')
+    image = models.ImageField(upload_to='image',blank=True)
     isDlete = models.BooleanField(default=False)
 
     def __str__(self):

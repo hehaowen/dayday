@@ -1,6 +1,8 @@
 from django.contrib import admin
+
+import xadmin
 from .models import *
 
 # Register your models here.
-admin.site.register(ArticlesInfo)
-admin.site.register(TitleInfo)
+xadmin.site.register(ArticlesInfo)
+xadmin.site.register(TitleInfo)

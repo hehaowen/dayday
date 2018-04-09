@@ -38,6 +38,9 @@ INSTALLED_APPS = (
     'article',
     'ckeditor',
     'ckeditor_uploader',
+    'xadmin',
+    'crispy_forms',
+    'reversion',
 )
 
 MIDDLEWARE_CLASSES = (
