@@ -76,7 +76,6 @@ def login_handle(request):
             return redirect('/user/user_center_info/')
         else:
             return redirect('/user/login/')
-    return redirect('1111')
 
 
 def user_center_info(request):

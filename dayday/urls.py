@@ -19,7 +19,8 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 urlpatterns = [
-    url(r'^admin/', include(admin.site.urls)),
-    url(r'^user/', include('daydays.urls', namespace='daydays')),
-    url(r'', include('article.urls', namespace='article')),
-]+ static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
+                  url(r'^admin/', include(admin.site.urls)),
+                  url(r'^user/', include('daydays.urls', namespace='daydays')),
+                  url(r'', include('article.urls', namespace='article')),
+                  url(r'^uploader', include('ckeditor_uploader.urls')),
+              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

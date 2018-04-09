@@ -9,7 +9,8 @@ def index(request):
 
 def detail(request,pk):
     artics = ArticlesInfo.objects.get(id=pk)
-    context = {'artics':artics}
+    news = ArticlesInfo.objects.all()
+    context = {'artics':artics,'news':news}
     return render(request, 'daydays/arite/detail.html',context)
 
 def list(request):
