@@ -10,4 +10,5 @@ urlpatterns = [
     url(r'^user_center_order/', views.user_center_order, name='user_center_order'),
     url(r'^user_center_site/', views.user_center_site, name='user_center_site'),
     url(r'^user_center/', views.user_center, name='user_center'),
+    url(r'^outlogin/', views.outlogin, name='outlogin'),
 ]

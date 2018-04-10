@@ -35,18 +35,13 @@
         <div class="l_wrap fl clearfix">
             <div class="new_goods">
                 <h3>新品推荐</h3>
-                <ul>
+                {% for new in artics %}
                     <li>
-                        <a href="#"><img src="images/goods/goods001.jpg"></a>
-                        <h4><a href="#">进口柠檬</a></h4>
-                        <div class="prize">￥3.90</div>
+                        <a href="{% url 'article:detail' new.id %}"><img src="{{ new.image.url }}"></a>
+                        <h4><a href="{% url 'article:detail' new.id %}">{{ new.aname }}</a></h4>
+                        <div class="prize">￥{{ new.gprice }}</div>
                     </li>
-                    <li>
-                        <a href="#"><img src="images/goods/goods002.jpg"></a>
-                        <h4><a href="#">玫瑰香葡萄</a></h4>
-                        <div class="prize">￥16.80</div>
-                    </li>
-                </ul>
+                {% endfor %}
             </div>
         </div>
 
@@ -57,17 +52,17 @@
                 <a href="#">人气</a>
             </div>
             {% for artic in artics %}
-            <ul class="goods_type_list clearfix">
-                <li>
-                    <a href="detail.html"><img src="{{ artic.image.url }}"></a>
-                    <h4><a href="detail.html">{{ artic.aname }}</a></h4>
-                    <div class="operate">
-                        <span class="prize">￥{{ artic.gprice }}</span>
-                        <span class="unit">{{ artic.gunit }}</span>
-                        <a href="#" class="add_goods" title="加入购物车"></a>
-                    </div>
-                </li>
-            </ul>
+                <ul class="goods_type_list clearfix">
+                    <li>
+                        <a href="{% url 'article:detail' artic.id %}"><img src="{{ artic.image.url }}"></a>
+                        <h4><a href="detail.html">{{ artic.aname }}</a></h4>
+                        <div class="operate">
+                            <span class="prize">￥{{ artic.gprice }}</span>
+                            <span class="unit">{{ artic.gunit }}</span>
+                            <a href="#" class="add_goods" title="加入购物车"></a>
+                        </div>
+                    </li>
+                </ul>
             {% endfor %}
 
             <div class="pagenation">

@@ -1,6 +1,6 @@
 # encoding=utf-8
 from hashlib import sha1
-
+from article.models import ArticlesInfo
 from django import forms
 from django.shortcuts import render, redirect
 from scrapy.http import response
@@ -81,7 +81,11 @@ def login_handle(request):
 def user_center_info(request):
     cname = request.session.get('username')
     name = UserInfo.objects.filter(username=cname)
-    context = {'user': name}
+    aname_ids = request.session['aname_ids']
+    aname_list = []
+    for aname_id in aname_ids:
+        aname_list.append(ArticlesInfo.objects.get(id=int(aname_id)))
+    context = {'user': name, 'aname_list': aname_list}
     return render(request, 'daydays/user/user_center_info.html', context)
 
 
@@ -113,3 +117,8 @@ def user_center(request):
                  postcode=postcode,
                  phonenumber=phonenumber)
     return render(request, 'daydays/user/user_center.html', context)
+
+
+def outlogin(request):
+    request.session = None
+    return render(request, 'daydays/user/outlogin.html')

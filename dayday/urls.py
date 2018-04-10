@@ -31,5 +31,6 @@ urlpatterns = [
                   url(r'^xadmin/', include(xadmin.site.urls)),
                   url(r'^user/', include('daydays.urls', namespace='daydays')),
                   url(r'', include('article.urls', namespace='article')),
+                  url(r'^others/', include('others.urls', namespace='others')),
                   url(r'^uploader', include('ckeditor_uploader.urls')),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
