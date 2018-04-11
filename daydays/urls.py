@@ -1,5 +1,10 @@
 from django.conf.urls import url
+from rest_framework import routers
+
 from . import views
+
+router = routers.DefaultRouter()
+router.register(r'UserViewSet', views.UserViewSet,base_name="UserViewSet")
 
 urlpatterns = [
     url(r'^register/', views.register, name='register'),

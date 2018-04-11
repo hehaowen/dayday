@@ -1,6 +1,7 @@
 from django.http import response
 from django.shortcuts import render
-
+from rest_framework import viewsets, filters
+from .serializers import ArtSerializers, TitleSerializers
 from .models import *
 
 
@@ -14,7 +15,7 @@ def index(request):
 def detail(request, pk):
     artics = ArticlesInfo.objects.get(id=pk)
     news = ArticlesInfo.objects.all()
-    aname_ids = request.session['aname_ids']
+    aname_ids = request.session.get('aname_ids', '')
     aname_id = '%d' % artics.id
     if aname_ids != '':
         aname_ids1 = aname_ids.split(',')
@@ -35,3 +36,13 @@ def list(request):
     artics = ArticlesInfo.objects.all()
     context = {'artics': artics}
     return render(request, 'daydays/arite/list.html', context)
+
+
+class TitleSer(viewsets.ModelViewSet):
+    queryset = TitleInfo.objects.all()
+    serializer_class = TitleSerializers
+
+
+class ArtSer(viewsets.ModelViewSet):
+    queryset = ArticlesInfo.objects.all()
+    serializer_class = ArtSerializers

@@ -41,6 +41,8 @@ INSTALLED_APPS = (
     'xadmin',
     'crispy_forms',
     'reversion',
+    'others',
+    'rest_framework',
 )
 
 MIDDLEWARE_CLASSES = (

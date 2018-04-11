@@ -1,11 +1,12 @@
 # encoding=utf-8
+import django_filters
 from hashlib import sha1
 from article.models import ArticlesInfo
 from django import forms
 from django.shortcuts import render, redirect
-from scrapy.http import response
-
 from daydays.models import UserInfo
+from .serializers import UserSerializers
+from rest_framework import viewsets,filters
 
 
 class FM(forms.Form):  # 建立一个验证类
@@ -81,10 +82,13 @@ def login_handle(request):
 def user_center_info(request):
     cname = request.session.get('username')
     name = UserInfo.objects.filter(username=cname)
-    aname_ids = request.session['aname_ids']
+    aname_ids = request.session.get('aname_ids', '')
     aname_list = []
-    for aname_id in aname_ids:
-        aname_list.append(ArticlesInfo.objects.get(id=int(aname_id)))
+    if aname_ids == '':
+        aname_list.append(None)
+    else:
+        for aname_id in aname_ids:
+            aname_list.append(ArticlesInfo.objects.get(id=int(aname_id)))
     context = {'user': name, 'aname_list': aname_list}
     return render(request, 'daydays/user/user_center_info.html', context)
 
@@ -122,3 +126,9 @@ def user_center(request):
 def outlogin(request):
     request.session = None
     return render(request, 'daydays/user/outlogin.html')
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset= UserInfo.objects.all()
+    serializer_class = UserSerializers
+

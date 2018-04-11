@@ -1,5 +1,10 @@
 from django.conf.urls import url
 from . import views
+from rest_framework import routers
+
+router = routers.DefaultRouter()
+router.register(r'art', views.ArtSer, base_name='art')
+router.register(r'title', views.TitleSer, base_name='title')
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
