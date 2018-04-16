@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.8/ref/settings/
 """
 import os
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -21,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '2830#pu+jr02zgo8a9dk^0g9sskl&ba*4u9(*abm_8sby7jwz5'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -84,7 +85,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'dayday',
         'USER': 'root',
-        'PASSWORD': 'Hhw7231562',
+        'PASSWORD': 'hhw7231562',
         'PROT': 3306,
         'HOST': '127.0.0.1',
     }
@@ -107,6 +108,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
@@ -115,3 +117,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 CKEDITOR_UPLOAD_PATH = 'upload/'
 CKEDITOR_IMAGE_BACKEND = 'pillow'
+
+DOMAIN = "www.liveyun.top"
+
+EMAIL_HOST = 'smtp.163.com'
+EMAIL_HOST_USER = '17770147931@163.com'
+EMAIL_HOST_PASSWORD = 'hhw0315'
+EMAIL_PORT = 25
+EMAIL_USE_TLS = True
