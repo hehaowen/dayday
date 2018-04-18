@@ -7,8 +7,9 @@ from .models import *
 
 # Create your views here.
 def index(request):
-    artics = ArticlesInfo.objects.all()
-    context = {'artics': artics}
+    tags = TitleInfo.objects.all()
+    artics = ArticlesInfo.objects.all()[0:4]
+    context = {'artics': artics, 'tags': tags}
     return render(request, 'daydays/arite/index.html', context)
 
 
