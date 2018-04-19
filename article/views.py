@@ -1,3 +1,4 @@
+# coding=utf-8
 from django.http import response
 from django.shortcuts import render
 from rest_framework import viewsets, filters
@@ -7,9 +8,27 @@ from .models import *
 
 # Create your views here.
 def index(request):
-    tags = TitleInfo.objects.all()
-    artics = ArticlesInfo.objects.all()[0:4]
-    context = {'artics': artics, 'tags': tags}
+    tags1 = TitleInfo.objects.filter(id=1)
+    tags2 = TitleInfo.objects.filter(id=2)
+    tags3 = TitleInfo.objects.filter(id=3)
+    tags4 = TitleInfo.objects.filter(id=4)
+    tags5 = TitleInfo.objects.filter(id=5)
+    artics1 = ArticlesInfo.objects.filter(sorts=1)[0:4]
+    artics2 = ArticlesInfo.objects.filter(sorts=2)[0:4]
+    artics3 = ArticlesInfo.objects.filter(sorts=3)[0:4]
+    artics4 = ArticlesInfo.objects.filter(sorts=4)[0:4]
+    artics5 = ArticlesInfo.objects.filter(sorts=5)[0:4]
+    context = {'artics1': artics1,
+               'artics2': artics2,
+               'artics3': artics3,
+               'artics4': artics4,
+               'artics5': artics5,
+               'tags1': tags1,
+               'tags2': tags2,
+               'tags3': tags3,
+               'tags4': tags4,
+               'tags5': tags5}
+    print(context)
     return render(request, 'daydays/arite/index.html', context)
 
 
@@ -30,6 +49,7 @@ def detail(request, pk):
         aname_ids = aname_id
     context = {'artics': artics, 'news': news}
     request.session['aname_ids'] = aname_ids
+
     return render(request, 'daydays/arite/detail.html', context)
 
 

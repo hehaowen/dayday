@@ -35,6 +35,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'haystack',
     'daydays',
     'article',
     'ckeditor',
@@ -44,6 +45,7 @@ INSTALLED_APPS = (
     'reversion',
     'others',
     'rest_framework',
+
 )
 
 MIDDLEWARE_CLASSES = (
@@ -118,10 +120,19 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 CKEDITOR_UPLOAD_PATH = 'upload/'
 CKEDITOR_IMAGE_BACKEND = 'pillow'
 
-DOMAIN = "www.liveyun.top"
+DOMAIN = "10.36.131.180:8000"
 
 EMAIL_HOST = 'smtp.163.com'
 EMAIL_HOST_USER = '17770147931@163.com'
 EMAIL_HOST_PASSWORD = 'hhw0315'
 EMAIL_PORT = 25
 EMAIL_USE_TLS = True
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'article.whoosh_cn_backend.WhooshEngine',
+        'PATH': os.path.join(BASE_DIR, 'whoosh_index'),
+    }
+}
+HAYSTACK_SEARCH_RESULTS_PER_PAGE = 10
+HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'

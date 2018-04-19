@@ -56,7 +56,7 @@ def register_handle(request):
             user.save()
 
             message = "\n".join(
-                ['{0},欢迎注册易读'.format(uname), '请访问该链接，完成用户验证：', '/'.join([django_settings.DOMAIN, 'user', token])])
+                ['{0},欢迎注册京东生鲜'.format(uname), '请访问该链接，完成用户验证：', '/'.join([django_settings.DOMAIN, 'user', token])])
             send_mail('注册用户信息', message, '17770147931@163.com', [uemail], fail_silently=False)
 
             return HttpResponse("请登录到注册邮箱中验证用户，有效期为1个小时")
@@ -81,7 +81,7 @@ def login_handle(request):
     pwd2 = s1.hexdigest()
     user = UserInfo.objects.filter(username=username)
     if len(user) > 0:
-        if user[0].token_read == "YD":
+        if user[0].isDelete == False:
             if user[0].password == pwd2:
                 request.session['username'] = request.POST['username']
                 return redirect('/user/user_center_info/')
@@ -94,13 +94,17 @@ def login_handle(request):
 def user_center_info(request):
     cname = request.session.get('username')
     name = UserInfo.objects.filter(username=cname)
-    aname_ids = request.session.get('aname_ids', 1)
+    aname_ids = request.session.get('aname_ids', '')
     aname_list = []
     if aname_ids == '':
         aname_list.append(None)
     else:
         for aname_id in aname_ids:
-            aname_list.append(ArticlesInfo.objects.get(id=int(aname_id)))
+            if aname_id == ',':
+                continue
+
+            else:
+                aname_list.append(ArticlesInfo.objects.get(id=int(aname_id)))
     context = {'user': name, 'aname_list': aname_list}
     return render(request, 'daydays/user/user_center_info.html', context)
 
@@ -160,8 +164,7 @@ def active_user(request, token):
     except UserInfo.DoesNotExist:
         return HttpResponse("对不起，您所验证的用户不存在，请重新注册")
     user.state = True
-    user.tokens = token
-    user.token_read = 'YD'
+    user.isDelete = False
     user.save()
     message = '验证成功，请进行<a href="http://0.0.0.0:8000/user/register/">登录</a>操作'
     return HttpResponse(message)

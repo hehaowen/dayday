@@ -12,8 +12,8 @@ class UserInfo(models.Model):
     postcode = models.CharField(max_length=6, null=True,verbose_name="邮编")
     phonenumber = models.CharField(max_length=11, null=True,verbose_name="手机号码")
     createtime = models.DateTimeField(auto_now_add=True,verbose_name="创建时间吗")
-    token_read = models.CharField(max_length=200,verbose_name="暂存token")
-    tokens = models.CharField(max_length=200,verbose_name="永久token")
+    token_read = models.CharField(max_length=200,verbose_name="token")
+    isDelete = models.BooleanField(default=True)
 
     def __str__(self):
         return self.username

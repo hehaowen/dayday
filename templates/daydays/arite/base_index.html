@@ -11,7 +11,11 @@
     <script type="text/javascript" src="{% static 'js/jquery-1.12.4.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/jquery-ui.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/slide.js' %}"></script>
-
+    <style>
+        span.highlighted {
+            color: red;
+        }
+    </style>
 </head>
 <body>
 <div class="header_con">
@@ -61,8 +65,10 @@
 <div class="search_bar clearfix">
     <a href="{% url 'article:index' %}" class="logo fl"><img src="{% static 'images/mod_header_logo.png' %}"></a>
     <div class="search_con fl">
-        <input type="text" class="input_text fl" name="" placeholder="搜索商品">
-        <input type="button" class="input_btn fr" name="" value="搜索">
+        <form role="search" method="get" id="searchform" action="{% url 'haystack_search' %}">
+            <input type="text" class="input_text fl" name="q" placeholder="搜索商品">
+            <input type="submit" class="input_btn fr" name="" value="搜索">
+        </form>
     </div>
     <div class="guest_cart fr">
         <a href="{% url 'others:cart' %}" class="cart_name fl">我的购物车</a>
@@ -89,27 +95,7 @@
 <div class="add_jump"></div>
 
 <script type="text/javascript" src="{% static 'js/jquery-1.12.2.js' %}"></script>
-<script type="text/javascript">
-    var $add_x = $('#add_cart').offset().top;
-    var $add_y = $('#add_cart').offset().left;
-
-    var $to_x = $('#show_count').offset().top;
-    var $to_y = $('#show_count').offset().left;
-
-    $(".add_jump").css({'left': $add_y + 80, 'top': $add_x + 10, 'display': 'block'})
-    $('#add_cart').click(function () {
-        $(".add_jump").stop().animate({
-                'left': $to_y + 7,
-                'top': $to_x + 7
-            },
-            "fast", function () {
-                $(".add_jump").fadeOut('fast', function () {
-                    $('#show_count').html(2);
-                });
-
-            });
-    })
-</script>
+<script type="text/javascript" src="{% static 'js/cart.js' %}"></script>
 
 </body>
 </html>

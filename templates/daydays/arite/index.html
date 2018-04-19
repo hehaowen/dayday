@@ -28,7 +28,7 @@
             <a href="#"><img src="{% static 'images/adv02.jpg' %}"></a>
         </div>
     </div>
-    {% for tag in tags %}
+    {% for tag in tags1 %}
         <div class="list_model">
             <div class="list_title clearfix">
                 <h3 class="fl" id="model01">{{ tag.title }}</h3>
@@ -44,7 +44,115 @@
             <div class="goods_con clearfix">
                 <div class="goods_banner fl"><img src="{{ tag.image.url }}"></div>
                 <ul class="goods_list fl">
-                    {% for artic in artics %}
+                    {% for artic in artics1 %}
+                        <li>
+                            <h4><a href="{% url 'article:detail' artic.pk %}">{{ artic.aname }}</a></h4>
+                            <a href="{% url 'article:detail' artic.pk %}"><img src="{{ artic.image.url }}"></a>
+                            <div class="prize">{{ artic.gprice }}</div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    {% endfor %}
+    {% for tag in tags2 %}
+        <div class="list_model">
+            <div class="list_title clearfix">
+                <h3 class="fl" id="model01">{{ tag.title }}</h3>
+                <div class="subtitle fl">
+                    <span>|</span>
+                    <a href="#">鲜芒</a>
+                    <a href="#">加州提子</a>
+                    <a href="#">亚马逊牛油果</a>
+                </div>
+                <a href="#" class="goods_more fr" id="fruit_more">查看更多 ></a>
+            </div>
+
+            <div class="goods_con clearfix">
+                <div class="goods_banner fl"><img src="{{ tag.image.url }}"></div>
+                <ul class="goods_list fl">
+                    {% for artic in artics2 %}
+                        <li>
+                            <h4><a href="{% url 'article:detail' artic.pk %}">{{ artic.aname }}</a></h4>
+                            <a href="{% url 'article:detail' artic.pk %}"><img src="{{ artic.image.url }}"></a>
+                            <div class="prize">{{ artic.gprice }}</div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    {% endfor %}
+    {% for tag in tags3 %}
+        <div class="list_model">
+            <div class="list_title clearfix">
+                <h3 class="fl" id="model01">{{ tag.title }}</h3>
+                <div class="subtitle fl">
+                    <span>|</span>
+                    <a href="#">鲜芒</a>
+                    <a href="#">加州提子</a>
+                    <a href="#">亚马逊牛油果</a>
+                </div>
+                <a href="#" class="goods_more fr" id="fruit_more">查看更多 ></a>
+            </div>
+
+            <div class="goods_con clearfix">
+                <div class="goods_banner fl"><img src="{{ tag.image.url }}"></div>
+                <ul class="goods_list fl">
+                    {% for artic in artics3 %}
+                        <li>
+                            <h4><a href="{% url 'article:detail' artic.pk %}">{{ artic.aname }}</a></h4>
+                            <a href="{% url 'article:detail' artic.pk %}"><img src="{{ artic.image.url }}"></a>
+                            <div class="prize">{{ artic.gprice }}</div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    {% endfor %}
+    {% for tag in tags4 %}
+        <div class="list_model">
+            <div class="list_title clearfix">
+                <h3 class="fl" id="model01">{{ tag.title }}</h3>
+                <div class="subtitle fl">
+                    <span>|</span>
+                    <a href="#">鲜芒</a>
+                    <a href="#">加州提子</a>
+                    <a href="#">亚马逊牛油果</a>
+                </div>
+                <a href="#" class="goods_more fr" id="fruit_more">查看更多 ></a>
+            </div>
+
+            <div class="goods_con clearfix">
+                <div class="goods_banner fl"><img src="{{ tag.image.url }}"></div>
+                <ul class="goods_list fl">
+                    {% for artic in artics4 %}
+                        <li>
+                            <h4><a href="{% url 'article:detail' artic.pk %}">{{ artic.aname }}</a></h4>
+                            <a href="{% url 'article:detail' artic.pk %}"><img src="{{ artic.image.url }}"></a>
+                            <div class="prize">{{ artic.gprice }}</div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    {% endfor %}
+    {% for tag in tags5 %}
+        <div class="list_model">
+            <div class="list_title clearfix">
+                <h3 class="fl" id="model01">{{ tag.title }}</h3>
+                <div class="subtitle fl">
+                    <span>|</span>
+                    <a href="#">鲜芒</a>
+                    <a href="#">加州提子</a>
+                    <a href="#">亚马逊牛油果</a>
+                </div>
+                <a href="#" class="goods_more fr" id="fruit_more">查看更多 ></a>
+            </div>
+
+            <div class="goods_con clearfix">
+                <div class="goods_banner fl"><img src="{{ tag.image.url }}"></div>
+                <ul class="goods_list fl">
+                    {% for artic in artics5 %}
                         <li>
                             <h4><a href="{% url 'article:detail' artic.pk %}">{{ artic.aname }}</a></h4>
                             <a href="{% url 'article:detail' artic.pk %}"><img src="{{ artic.image.url }}"></a>

@@ -41,17 +41,17 @@
                 <p>{{ artics.intro }}</p>
                 <div class="prize_bar">
                     <span class="show_pirze">¥<em>{{ artics.gprice }}</em></span>
-                    <span class="show_unit">单  位：{{ artics.gunit }}</span>
+                    <sminuspan class="show_unit">单  位：{{ artics.gunit }}</sminuspan>
                 </div>
                 <div class="goods_num clearfix">
-                    <div class="num_name fl">数 量：{{ artics.count }}</div>
+                    <div class="num_name fl">数 量：<span>{{ artics.count }}</span></div>
                     <div class="num_add fl">
-                        <input type="text" class="num_show fl" value="1">
-                        <a href="javascript:;" class="add fr">+</a>
-                        <a href="javascript:;" class="minus fr">-</a>
+                        <input type="text" name="number" class="num_show fl" value="1" onkeyup="getInputNum()">
+                        <a href="javascript:;" class="add fr" onclick="addNum()">+</a>
+                        <a href="javascript:;" class="minus fr" onclick="minusNum()">-</a>
                     </div>
                 </div>
-                <div class="total">总价：<em>元</em></div>
+                <div class="total" name="sum">总价：<em>元</em></div>
                 <div class="operate_btn">
                     <a href="javascript:;" class="buy_btn">立即购买</a>
                     <a href="javascript:;" class="add_cart" id="add_cart">加入购物车</a>
