@@ -1,62 +1,75 @@
 # coding=utf-8
-from django.http import response
-from django.shortcuts import render
-from rest_framework import viewsets, filters
-from .serializers import ArtSerializers, TitleSerializers
 from .models import *
+from article import utils
+from rest_framework import viewsets
+from django.views.generic import ListView
+from django.views.generic import TemplateView, DetailView
+from .serializers import ArtSerializers, TitleSerializers
 
 
-# Create your views here.
-def index(request):
-    tags1 = TitleInfo.objects.filter(id=1)
-    tags2 = TitleInfo.objects.filter(id=2)
-    tags3 = TitleInfo.objects.filter(id=3)
-    tags4 = TitleInfo.objects.filter(id=4)
-    tags5 = TitleInfo.objects.filter(id=5)
-    artics1 = ArticlesInfo.objects.filter(sorts=1)[0:4]
-    artics2 = ArticlesInfo.objects.filter(sorts=2)[0:4]
-    artics3 = ArticlesInfo.objects.filter(sorts=3)[0:4]
-    artics4 = ArticlesInfo.objects.filter(sorts=4)[0:4]
-    artics5 = ArticlesInfo.objects.filter(sorts=5)[0:4]
-    context = {'artics1': artics1,
-               'artics2': artics2,
-               'artics3': artics3,
-               'artics4': artics4,
-               'artics5': artics5,
-               'tags1': tags1,
-               'tags2': tags2,
-               'tags3': tags3,
-               'tags4': tags4,
-               'tags5': tags5}
-    print(context)
-    return render(request, 'daydays/arite/index.html', context)
+class IndexView(TemplateView):
+    template_name = 'daydays/arite/index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        tags = TitleInfo.objects.all()
+        context1 = {}
+        for i in range(len(tags)):
+            tag = TitleInfo.objects.filter(id=i)
+            articsl = ArticlesInfo.objects.filter(sorts=i)[0:4]
+            context1['tags%s' % i] = tag
+            context1['artics%s' % i] = articsl
+        context.update(context1)
+        return context
 
 
-def detail(request, pk):
-    artics = ArticlesInfo.objects.get(id=pk)
-    news = ArticlesInfo.objects.all()
-    aname_ids = request.session.get('aname_ids', '')
-    aname_id = '%d' % artics.id
-    if aname_ids != '':
-        aname_ids1 = aname_ids.split(',')
-        if aname_ids1.count(aname_id) >= 1:
-            aname_ids1.remove(aname_id)
-        aname_ids1.insert(0, aname_id)
-        if len(aname_ids1) >= 6:
-            del aname_ids1[5]
-        aname_ids = ','.join(aname_ids1)
-    else:
-        aname_ids = aname_id
-    context = {'artics': artics, 'news': news}
-    request.session['aname_ids'] = aname_ids
+class ArtDetailView(DetailView):
+    model = ArticlesInfo
+    template_name = 'daydays/arite/detail.html'
+    context_object_name = 'artics'
 
-    return render(request, 'daydays/arite/detail.html', context)
+    def get(self, request, *args, **kwargs):
+        response = super(ArtDetailView, self).get(self, request, *args, **kwargs)
+        self.object.clickup()
+        aname_ids = request.session.get('aname_ids', '')
+        aname_id = '%d' % self.object.id
+        if aname_ids != '':
+            aname_ids1 = aname_ids.split(',')
+            if aname_ids1.count(aname_id) >= 1:
+                aname_ids1.remove(aname_id)
+            aname_ids1.insert(0, aname_id)
+            if len(aname_ids1) >= 6:
+                del aname_ids1[5]
+            aname_ids = ','.join(aname_ids1)
+        else:
+            aname_ids = aname_id
+        request.session['aname_ids'] = aname_ids
+        return response
+
+    def get_context_data(self, **kwargs):
+        context = super(ArtDetailView, self).get_context_data(**kwargs)
+        news = ArticlesInfo.objects.all()[0:4]
+        context.update({
+            'news': news
+        })
+        return context
 
 
-def list(request):
-    artics = ArticlesInfo.objects.all()
-    context = {'artics': artics}
-    return render(request, 'daydays/arite/list.html', context)
+class list(ListView):
+    model = ArticlesInfo
+    template_name = 'daydays/arite/list.html'
+    context_object_name = 'artics'
+    paginate_by = 4
+
+    def get_context_data(self, **kwargs):
+        context = super(list, self).get_context_data(**kwargs)
+        paginator = context.get('paginator')
+        page = context.get('page_obj')
+        start, end = utils.custompaginator(paginator.num_pages, page.number, 4)
+        context.update({
+            'page_range': range(start, end + 1)
+        })
+        return context
 
 
 class TitleSer(viewsets.ModelViewSet):

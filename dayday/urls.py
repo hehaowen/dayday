@@ -1,5 +1,4 @@
 from django.conf.urls import include, url
-from django.contrib import admin
 from django.conf.urls.static import static
 from django.conf import settings
 import xadmin
@@ -17,7 +16,8 @@ urlpatterns = [
                   url(r'api/', include(daydays_router.urls)),
                   url(r'art/', include(article_router.urls)),
                   url(r'other/', include(others_router.urls)),
-                  url(r'search/',include('haystack.urls')),
+                  url(r'search/', include('haystack.urls')),
+                  url(r'', include('comment.urls')),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

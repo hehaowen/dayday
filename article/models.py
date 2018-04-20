@@ -6,7 +6,7 @@ from ckeditor_uploader.fields import RichTextUploadingField
 
 class TitleInfo(models.Model):
     title = models.CharField(max_length=10, verbose_name='分类')
-    image = models.ImageField(upload_to='image',blank=True)
+    image = models.ImageField(upload_to='image', blank=True)
     isDlete = models.BooleanField(default=False)
 
     def __str__(self):
@@ -23,6 +23,8 @@ class ArticlesInfo(models.Model):
     gprice = models.DecimalField(max_digits=7, decimal_places=2, verbose_name='价格')
     count = models.IntegerField()
     gunit = models.CharField(max_length=20, verbose_name='商品个数')
+    crt = models.IntegerField()
+    bigImage = models.ImageField(upload_to='upload_big')
     image = models.ImageField(upload_to='upload')
     isDelete = models.BooleanField(default=False)
     textcontext = RichTextUploadingField(default='')
@@ -32,7 +34,14 @@ class ArticlesInfo(models.Model):
     def __str__(self):
         return self.aname
 
+    def clickup(self):
+        self.crt += 1
+        self.save(update_fields=['crt'])
+
     class Meta:
         verbose_name = '商品信息'
         verbose_name_plural = '商品信息'
         ordering = ['-createtime']
+
+
+

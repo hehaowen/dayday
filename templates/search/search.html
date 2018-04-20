@@ -5,49 +5,45 @@
 {% block body %}
     <div style="margin: 10px 5px">
         <p style="height: 40px;line-height: 30px;font-size: 16px;padding: 4px 5px" class="list-group-item active">
-            搜索结果:</p>
-        <div style="overflow: hidden">
-            {% if query %}
-                {% for result in page.object_list %}
+            搜索结果:</p></div>
+    {% if query %}
+        {% for result in page.object_list %}
+            <ul class="goods_type_list clearfix">
+                <li>
                     <article class="post post-{{ result.object.pk }}">
-                        <header class="entry-header">
-                            <div style="overflow: hidden;height: 150px;border-bottom: 1px solid aliceblue;margin: 10px 0">
-                                <div style="width: 180px;height: 140px;float: left;">
-                                    <img src="{{ result.object.image.url }}" alt=""
-                                         style="width: 180px;height: 140px"
-                                         class="img-rounded">
-                                </div>
-                                <div style="width: 580px;float: right;margin: 2px 4px;">
-                                    <p style="font-size: 18px"><a
-                                            href="{% url 'article:detail' result.object.pk %}">{% highlight result.object.aname with query %}</a>
-                                    </p>
-                                    <p style="margin: 0 4px;line-height: 30px">
-                                        <br>价格: {{ result.object.gprice }} 元&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;数量: {{ result.object.gunit }}
-                                    </p>
-                                    <p style="text-indent: 2em"></p>
-                                </div>
-                            </div>
-
-                        </header>
+                        <a href="{% url 'article:detail' result.object.pk %}"><img
+                                src="{{ result.object.image.url }}"></a>
+                        <h4>
+                            <a href="{% url 'article:detail' result.object.pk %}">{% highlight result.object.aname with query %}</a>
+                        </h4>
+                        <div class="operate">
+                            <span class="prize">￥{{ result.object.gprice }}元</span>
+                            <span class="unit">{{ result.object.gunit }}</span>
+                        </div>
                     </article>
-                {% empty %}
-                    <div class="no-post">没有搜索到你想要的结果！</div>
-                {% endfor %}
-            {% else %}
-                <p style="margin: 8px 4px"> 请输入搜索关键词，例如 Django </p>
+                </li>
+            </ul>
+        {% empty %}
+            <div class="no-post">没有搜索到你想要的结果！</div>
+        {% endfor %}
+    {% else %}
+        <p style="margin: 8px 4px"> 请输入搜索关键词，例如 Django </p>
+    {% endif %}
+    <div class="pagination">
+        {% if is_paginated %}
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}">上一页</a>
             {% endif %}
-        </div>
-        <div style="margin: 8px 0;text-align: center">
-            {% if page.has_previous or page.has_next %}
-                <div>
-                    {% if page.has_previous %}
-                        <a href="?q={{ query }}&amp;page={{ page.previous_page_number }}">{% endif %}&laquo; 上一页
-                    {% if page.has_previous %}</a>{% endif %}
-                    |
-                    {% if page.has_next %}<a href="?q={{ query }}&amp;page={{ page.next_page_number }}">{% endif %}下一页
-                    &raquo;{% if page.has_next %}</a>{% endif %}
-                </div>
+            {% for i in page_range %}
+                {% if page_obj.number == i %}
+                    <a class="active" href="?page={{ i }}">{{ i }}</a>
+                {% else %}
+                    <a href="?page={{ i }}">{{ i }}</a>
+                {% endif %}
+            {% endfor %}
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">下一页</a>
             {% endif %}
-        </div>
+        {% endif %}
     </div>
 {% endblock body %}

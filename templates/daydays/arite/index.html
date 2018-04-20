@@ -4,6 +4,18 @@
 {% block title %}天天生鲜-首页{% endblock title %}
 
 {% block body %}
+    <div class="navbar_con">
+        <div class="navbar">
+            <h1 class="fl" href="{% url 'article:list' %}">全部商品分类</h1>
+            <ul class="navlist fl">
+                <li><a href="">首页</a></li>
+                <li class="interval">|</li>
+                <li><a href="">手机生鲜</a></li>
+                <li class="interval">|</li>
+                <li><a href="">抽奖</a></li>
+            </ul>
+        </div>
+    </div>
     <div class="center_con clearfix">
         <ul class="subnav fl">
             <li><a href="#model01" class="fruit">新鲜水果</a></li>
@@ -15,8 +27,8 @@
         </ul>
         <div class="slide fl">
             <ul class="slide_pics">
-                {% for i in artics %}
-                <li><img src="{{ i.image.url }}" alt="幻灯片"></li>
+                {% for i in artics1 %}
+                    <li><img src="{{ i.bigImage.url }} " width="760px" height="270px" alt="幻灯片"></li>
                 {% endfor %}
             </ul>
             <div class="prev"></div>
