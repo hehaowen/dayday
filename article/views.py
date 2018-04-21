@@ -14,6 +14,7 @@ class IndexView(TemplateView):
         context = super().get_context_data(**kwargs)
         tags = TitleInfo.objects.all()
         context1 = {}
+        context1['tags'] = tags
         for i in range(len(tags)):
             tag = TitleInfo.objects.filter(id=i)
             articsl = ArticlesInfo.objects.filter(sorts=i)[0:4]

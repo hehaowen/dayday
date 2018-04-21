@@ -3,7 +3,10 @@ import django_filters
 from hashlib import sha1
 
 from django.core.mail import send_mail
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.views.generic import ListView, TemplateView
+
+from others.models import OthersInfo
 from .token_user import *
 from article.models import ArticlesInfo
 from django import forms
@@ -28,8 +31,8 @@ class FM(forms.Form):  # 建立一个验证类
                                              'invalid': '邮箱格式错误'})
 
 
-def register(request):
-    return render(request, 'daydays/user/register.html')
+class register(TemplateView):
+    template_name = 'daydays/user/register.html'
 
 
 def register_handle(request):
@@ -68,8 +71,8 @@ def register_handle(request):
         return redirect('/user/register/')
 
 
-def login(request):
-    return render(request, 'daydays/user/login.html')
+class login(TemplateView):
+    template_name = 'daydays/user/login.html'
 
 
 def login_handle(request):
@@ -83,7 +86,11 @@ def login_handle(request):
     if len(user) > 0:
         if user[0].isDelete == False:
             if user[0].password == pwd2:
-                request.session['username'] = request.POST['username']
+                count = OthersInfo.objects.filter(user_id=user[0].id).count()
+                request.session['user_id'] = user[0].id
+                request.session['username'] = username
+                request.session['count'] = count
+
                 return redirect('/user/user_center_info/')
             else:
                 return redirect('/user/login/')
@@ -94,10 +101,10 @@ def login_handle(request):
 def user_center_info(request):
     cname = request.session.get('username')
     name = UserInfo.objects.filter(username=cname)
-    aname_ids = request.session.get('aname_ids', '')
+    aname_ids = request.session.get('aname_ids', 1)
     aname_list = []
-    if aname_ids == '':
-        aname_list.append(None)
+    if aname_ids == 1:
+        aname_list.append(ArticlesInfo.objects.get(id=1))
     else:
         for aname_id in aname_ids:
             if aname_id == ',':
@@ -160,7 +167,7 @@ def active_user(request, token):
         return HttpResponse('对不起，验证链接已经过期，请重新<a href="http://0.0.0.0:8000/user/register/"' + (
             django_settings.DOMAIN) + u'/login\">注册</a>')
     try:
-        user = UserInfo.objects.get(username=username)
+        user = UserInfo.objects.get(username=username)[0]
     except UserInfo.DoesNotExist:
         return HttpResponse("对不起，您所验证的用户不存在，请重新注册")
     user.state = True

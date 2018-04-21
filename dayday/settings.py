@@ -45,6 +45,7 @@ INSTALLED_APPS = (
     'reversion',
     'others',
     'rest_framework',
+    'comment'
 
 )
 

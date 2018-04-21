@@ -1,6 +1,69 @@
 {% extends 'daydays/arite/base_index.html' %}
 {% load static %}
 {% block title %}天天生鲜-商品详情{% endblock title %}
+<script>
+ $(function(){
+/* 计算价格数量函数*/
+   function calculateTotal(){
+     /* 小计价格*/
+     var sumTotal = 0;
+     var countGood = 0;
+		//获取数量
+       count = $('.num_show').val();
+		//获取单价
+       price = {{ g.gprice }};
+		//小计
+       total01 = parseInt(count) * parseFloat(price);
+       $('#gtotal').text(total01.toFixed(2)+'元');
+   };
+   function kucun() {
+       kunn = $('#kucun').text()
+       console.log(kunn)
+       if (kunn == 0){
+            $('div#genghuan').replaceWith("<div style='height: 60px;width: 198px;color: red;font-size: 28px;margin-top: 30px;'>没有库存了</div>")
+       }
+   };
+   kucun();
+   calculateTotal();
+     {# 购买页面 #}
+   $('#buy').click(function () {
+       txt = $('.num_show').val();
+       window.location.href='/cart/add{{ g.id }}_'+txt+'/'
+   })
+     {# 加入购物车  ajax #}
+   $('.add_cart').click(function () {
+       txt = $('.num_show').val();
+       url = '/cart/add{{ g.id }}_'+txt+'/';
+       $.get(url,function (data) {
+            $('#show_count').text(data.count)
+           console.log(data.count)
+       })
+   })
+   /* 新增*/
+   $('.add').click(function(){
+     txt = $('.num_show').val();
+     if (txt<100){
+       txt=(parseFloat(txt)+1);
+       $('.num_show').val(txt)
+     };
+     goodid = {{ g.id }};
+     count = $(this).val();
+     url = '/cart/edit'+goodid+'_'+count+'/';
+     	calculateTotal();
+   });
+   /* 减少*/
+   $('.minus').click(function(){
+    txt = $('.num_show').val();
+     if (txt>1){
+       txt=(parseFloat(txt)-1);
+       $('.num_show').val(txt)
+     };
+     goodid = {{ g.id }};
+     count = $(this).val();
+     calculateTotal();
+   });
+ })
+</script>
 {% block body %}
     <div class="navbar_con">
         <div class="navbar clearfix">
@@ -35,59 +98,67 @@
     </div>
 
     <div class="goods_detail_con clearfix">
-            <div class="goods_detail_pic fl"><img src="{{ artics.image.url }}"></div>
-            <div class="goods_detail_list fr">
-                <h3>{{ artics.aname }}</h3>
-                <p>{{ artics.intro }}</p>
-                <div class="prize_bar">
-                    <span class="show_pirze">¥<em>{{ artics.gprice }}</em></span>
-                    <sminuspan class="show_unit">单  位：{{ artics.gunit }}</sminuspan>
-                </div>
-                <div class="goods_num clearfix">
-                    <div class="num_name fl">数 量：<span>{{ artics.count }}</span></div>
-                    <div class="num_add fl">
-                        <input type="text" name="number" class="num_show fl" value="1" onkeyup="getInputNum()">
-                        <a href="javascript:;" class="add fr" onclick="addNum()">+</a>
-                        <a href="javascript:;" class="minus fr" onclick="minusNum()">-</a>
-                    </div>
-                </div>
-                <div class="total" name="sum">总价：<em>元</em></div>
-                <div class="operate_btn">
-                    <a href="javascript:;" class="buy_btn">立即购买</a>
-                    <a href="javascript:;" class="add_cart" id="add_cart">加入购物车</a>
+        <div class="goods_detail_pic fl"><img src="{{ artics.image.url }}" style="width:350px; height:350px"></div>
+        <div class="goods_detail_list fr">
+            <h3>{{ artics.aname }}</h3>
+            <p>{{ artics.intro }}</p>
+            <div class="prize_bar">
+                <span class="show_pirze">¥<em>{{ artics.gprice }}</em></span>
+                <sminuspan class="show_unit">单 位：{{ artics.gunit }}</sminuspan>
+            </div>
+            <div class="goods_num clearfix">
+                <div class="num_name fl">数 量：<span>{{ artics.count }}</span></div>
+                <div class="num_add fl">
+                    <input type="text" name="number" class="num_show fl" value="1" onkeyup="getInputNum()">
+                    <a href="javascript:;" class="add fr" onclick="addNum()">+</a>
+                    <a href="javascript:;" class="minus fr" onclick="minusNum()">-</a>
                 </div>
             </div>
+            <div class="total" name="sum">总价：<em>元</em></div>
+             <div class="operate_btn">
+                    {% if request.session.username|default:'' != '' %}
+                        <a href="javascript:;" class="buy_btn" id="buy">立即购买</a>
+                    {% else %}
+                        <a href="/user/login/" class="buy_btn" id="buy">立即购买</a>
+                    {% endif %}
+                    {% if request.session.username|default:'' != '' %}
+                        <a href="javascript:;" class="add_cart" id="add_cart">加入购物车</a>
+                    {% else %}
+                        <a href="/user/login/" class="add_cart" id="add_cart">加入购物车</a>
+                    {% endif %}
+                </div>
+        </div>
+    </div>
+
+    <div class="main_wrap clearfix">
+        <div class="l_wrap fl clearfix">
+            <div class="new_goods">
+                <h3>新品推荐</h3>
+                <ul>
+                    {% for new in news %}
+                        <li>
+                            <a href="#"><img src="{{ new.image.url }}"></a>
+                            <h4><a href="#">{{ new.aname }}</a></h4>
+                            <div class="prize">￥{{ new.gprice }}</div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="r_wrap fr clearfix">
+            <ul class="detail_tab clearfix">
+                <li class="active">商品介绍</li>
+                <li>评论</li>
+            </ul>
+
+            <div class="tab_content">
+                <dl>
+                    <dt>商品详情：</dt>
+                    <dd>{{ artics.textcontext | safe }}</dd>
+                </dl>
             </div>
 
-            <div class="main_wrap clearfix">
-                <div class="l_wrap fl clearfix">
-                    <div class="new_goods">
-                        <h3>新品推荐</h3>
-                        <ul>
-                            {% for new in news %}
-                            <li>
-                                <a href="#"><img src="{{ new.image.url }}"></a>
-                                <h4><a href="#">{{ new.aname }}</a></h4>
-                                <div class="prize">￥{{ new.gprice }}</div>
-                            </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="r_wrap fr clearfix">
-                    <ul class="detail_tab clearfix">
-                        <li class="active">商品介绍</li>
-                        <li>评论</li>
-                    </ul>
-
-                    <div class="tab_content">
-                        <dl>
-                            <dt>商品详情：</dt>
-                            <dd>{{ artics.textcontext | safe}}</dd>
-                        </dl>
-                    </div>
-
-                </div>
-            </div>
+        </div>
+    </div>
 {% endblock body %}

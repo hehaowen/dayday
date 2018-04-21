@@ -5,7 +5,7 @@ from django.db import models
 class Comment(models.Model):
     name = models.ForeignKey('daydays.UserInfo')
     create_time = models.DateTimeField(auto_now_add=True)
-    articlename = models.ForeignKey('ArticlesInfo')
+    articlename = models.ForeignKey('article.ArticlesInfo')
     image = models.ImageField(null=True)
     text = models.TextField()
 
