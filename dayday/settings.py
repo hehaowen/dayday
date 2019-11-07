@@ -86,11 +86,11 @@ WSGI_APPLICATION = 'dayday.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'dayday',
-        'USER': 'root',
-        'PASSWORD': 'hhw7231562',
+        'NAME': 'db_name',
+        'USER': 'db_user',
+        'PASSWORD': 'db_pw',
         'PROT': 3306,
-        'HOST': '127.0.0.1',
+        'HOST': 'db_host',
     }
 }
 
@@ -121,11 +121,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 CKEDITOR_UPLOAD_PATH = 'upload/'
 CKEDITOR_IMAGE_BACKEND = 'pillow'
 
-DOMAIN = "10.36.131.180:8000"
+DOMAIN = "domian_host"
 
 EMAIL_HOST = 'smtp.163.com'
-EMAIL_HOST_USER = '17770147931@163.com'
-EMAIL_HOST_PASSWORD = 'hhw0315'
+EMAIL_HOST_USER = '163mail'
+EMAIL_HOST_PASSWORD = 'mail_pw'
 EMAIL_PORT = 25
 EMAIL_USE_TLS = True
 
